@@ -5,10 +5,10 @@ import com.amap.api.maps.AMap
 import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.model.LatLng
 import com.amap.api.maps.model.MyLocationStyle
-import com.amap.api.maps2d.model.TileProvider
-import com.amap.api.maps2d.model.TileOverlay
-import com.amap.api.maps2d.model.TileOverlayOptions
-import com.amap.api.maps2d.model.UrlTileProvider
+import com.amap.api.maps.model.TileProvider
+import com.amap.api.maps.model.TileOverlay
+import com.amap.api.maps.model.TileOverlayOptions
+import com.amap.api.maps.model.UrlTileProvider
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.common.MapBuilder
@@ -147,8 +147,8 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
             "night" -> view.map.mapType = AMap.MAP_TYPE_NIGHT
             "bus" -> view.map.mapType = AMap.MAP_TYPE_BUS
         }
-        if (mapType != "customtile" && mtileOverlay != null){
-            mtileOverlay.remove();
+        if (mapType != "customtile" && this.mtileOverlay != null){
+            this.mtileOverlay.remove();
         } else if (mapType == "customtile") {
             if (this.tileUrl.isNullOrBlank()) {
                 view.map.mapType = AMap.MAP_TYPE_SATELLITE
@@ -156,7 +156,7 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
                 view.map.mapType = AMap.MAP_TYPE_NORMAL
                 val url = this.tileUrl!!
                 val tileOverlayOptions = TileOverlayOptions().tileProvider(object : UrlTileProvider(256, 256) {
-                    fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
+                    override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
                         try {
                             return URL(String.format(url, zoom, x, y))
                         } catch (e: Exception) {
@@ -171,7 +171,6 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
                     .diskCacheSize(100000)
                     .memoryCacheEnabled(true)
                     .memCacheSize(100000)
-                    .zIndex(1)
                 this.mtileOverlay = map.addTileOverlay(tileOverlayOptions)
             }
         }
