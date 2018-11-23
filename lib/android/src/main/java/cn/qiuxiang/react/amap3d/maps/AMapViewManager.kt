@@ -182,7 +182,7 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
         this.tileUrl = tileUrl
     }
 
-    @RectProp(name = "customMapStyle")
+    @ReactProp(name = "customMapStyle")
     fun setCustomMapStylePath(view: AMapView, path: String) {
         view.map.setCustomMapStylePath(path)
         view.map.setMapCustomEnable(path.isNotEmpty())
