@@ -148,7 +148,7 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
             "bus" -> view.map.mapType = AMap.MAP_TYPE_BUS
         }
         if (mapType != "customtile" && this.mtileOverlay != null){
-            this.mtileOverlay.remove();
+            this.mtileOverlay!!.remove();
         } else if (mapType == "customtile") {
             if (this.tileUrl.isNullOrBlank()) {
                 view.map.mapType = AMap.MAP_TYPE_SATELLITE
@@ -171,7 +171,7 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
                     .diskCacheSize(100000)
                     .memoryCacheEnabled(true)
                     .memCacheSize(100000)
-                this.mtileOverlay = map.addTileOverlay(tileOverlayOptions)
+                this.mtileOverlay = view.map.addTileOverlay(tileOverlayOptions)
             }
         }
     }
